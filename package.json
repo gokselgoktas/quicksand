@@ -1,0 +1,62 @@
+{
+    "name": "quicksand",
+    "version": "0.1.0",
+    "description": "A minimal app skeleton fueled by Express and React",
+    "homepage": "https://github.com/gokselgoktas/quicksand",
+    "bugs": {
+        "url": "https://github.com/gokselgoktas/quicksand/issues"
+    },
+    "author": "Göksel Göktas",
+    "main": "./src/back-end/index.js",
+    "repository": "github:gokselgoktas/quicksand",
+    "scripts": {
+        "build": "npm run clean && npm run pack",
+        "build:development": "npm run pack:development",
+        "build:production": "npm run pack:production",
+        "clean": "rimraf ./build",
+        "clean:development": "rimraf ./build/development",
+        "clean:production": "rimraf ./build/production",
+        "pack": "npm run pack:development && npm run pack:production",
+        "pack:development": "npm run pack-back-end:development && npm run pack-front-end:development",
+        "pack:production": "npm run pack-back-end:production && npm run pack-front-end:production",
+        "pack-back-end:development": "webpack --config ./build-scripts/development/back-end-configuration.js",
+        "pack-back-end:production": "webpack --config ./build-scripts/production/back-end-configuration.js",
+        "pack-front-end:development": "webpack --config ./build-scripts/development/front-end-configuration.js",
+        "pack-front-end:production": "webpack --config ./build-scripts/production/front-end-configuration.js",
+        "start:development": "npm run build:development && nodemon ./build/development/back-end/index.js",
+        "start:production": "npm run build:production && node ./build/production/back-end/index.js"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "react": "^17.0.1",
+        "react-dom": "^17.0.1"
+    },
+    "engines": {
+        "node": ">=15.0.1",
+        "npm": "~7.5.4"
+    },
+    "private": true,
+    "devDependencies": {
+        "@babel/core": "^7.12.3",
+        "@babel/preset-env": "^7.12.1",
+        "@babel/preset-react": "^7.12.5",
+        "@types/react": "^17.0.0",
+        "@types/react-dom": "^17.0.0",
+        "babel-loader": "^8.1.0",
+        "clean-webpack-plugin": "^3.0.0",
+        "css-loader": "^5.2.0",
+        "css-minimizer-webpack-plugin": "^1.1.5",
+        "html-loader": "^2.1.1",
+        "html-minimizer-webpack-plugin": "^2.1.0",
+        "html-webpack-plugin": "^5.2.0",
+        "mini-css-extract-plugin": "^1.2.1",
+        "nodemon": "^2.0.6",
+        "sass": "^1.29.0",
+        "sass-loader": "^11.0.1",
+        "webpack": "^5.4.0",
+        "webpack-cli": "^4.2.0",
+        "webpack-dev": "^1.1.1",
+        "webpack-merge": "^5.7.3",
+        "webpack-node-externals": "^2.5.2"
+    }
+}
