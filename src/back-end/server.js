@@ -4,7 +4,7 @@ const path = require('path');
 const PORT = process.env.PORT || 8080
 
 const BACK_END_PATH = __dirname;
-const FRONT_END_PATH = path.resolve(__dirname, '..', 'front-end');
+const FRONT_END_PATH = path.resolve(__dirname, '..', 'client');
 
 const app = express();
 
@@ -27,3 +27,9 @@ app.listen(PORT, () => {
     console.log(`Quicksand is listening on ${PORT}`);
     console.log('Press CTRL+C to terminate');
 });
+
+module.exports = {
+    run() {
+        //
+    }
+}

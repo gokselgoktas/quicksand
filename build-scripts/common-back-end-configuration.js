@@ -4,10 +4,6 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 
 module.exports = merge(require(path.resolve(__dirname, 'common-configuration.js')), {
-    entry: {
-        backEnd: path.resolve('src', 'back-end', 'index.js'),
-    },
-
     externals: [nodeExternals()],
 
     node: {
@@ -18,6 +14,4 @@ module.exports = merge(require(path.resolve(__dirname, 'common-configuration.js'
     output: {
         filename: 'index.js',
     },
-
-    target: 'node',
 });
