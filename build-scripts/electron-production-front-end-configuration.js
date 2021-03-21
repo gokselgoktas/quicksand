@@ -4,18 +4,18 @@ const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 
 const { merge } = require('webpack-merge');
 
-module.exports = merge(require(path.resolve(__dirname, '..', 'common-front-end-configuration.js')), {
+module.exports = merge(require(path.resolve(__dirname, 'common-front-end-configuration.js')), {
     devtool: 'inline-source-map',
-    mode: 'development',
+    mode: 'production',
 
     output: {
-        filename: '[name].js',
-        path: path.resolve('build', 'desktop', 'development'),
+        filename: '[contenthash].js',
+        path: path.resolve('build', 'electron', 'production'),
     },
 
     plugins: [
         new MiniCSSExtractPlugin({
-            filename: '[name].css',
+            filename: '[contenthash].css',
         }),
     ],
 

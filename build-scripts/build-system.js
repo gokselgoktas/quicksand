@@ -7,7 +7,7 @@ const { program, Option } = require('commander');
 program.version('0.0.1');
 
 const target = new Option('-t, --target <target>', 'set target platform')
-    .choices(['desktop', 'web'])
+    .choices(['electron', 'express'])
     .default('web');
 
 const variant = new Option('-v, --variant <target>', 'set build variant')
@@ -15,10 +15,10 @@ const variant = new Option('-v, --variant <target>', 'set build variant')
     .default('development');
 
 async function compile(options) {
-    let backEndConfiguration = require(`./${options.variant}/${options.target}-back-end-configuration`);
-    let frontEndConfiguration = require(`./${options.variant}/${options.target}-front-end-configuration`);
+    let backEndConfiguration = require(`./${options.target}-${options.variant}-back-end-configuration`);
+    let frontEndConfiguration = require(`./${options.target}-${options.variant}-front-end-configuration`);
 
-    if (options.target === 'desktop') {
+    if (options.target === 'electron') {
         frontEndConfiguration.plugins.shift();
     }
 

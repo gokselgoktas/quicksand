@@ -4,13 +4,13 @@ const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 
 const { merge } = require('webpack-merge');
 
-module.exports = merge(require(path.resolve(__dirname, '..', 'common-front-end-configuration.js')), {
-    devtool: 'inline-source-map',
+module.exports = merge(require(path.resolve(__dirname, 'common-front-end-configuration.js')), {
+    devtool: 'source-map',
     mode: 'production',
 
     output: {
         filename: '[contenthash].js',
-        path: path.resolve('build', 'desktop', 'production'),
+        path: path.resolve('build', 'express', 'production', 'client'),
     },
 
     plugins: [
@@ -18,6 +18,4 @@ module.exports = merge(require(path.resolve(__dirname, '..', 'common-front-end-c
             filename: '[contenthash].css',
         }),
     ],
-
-    target: 'electron-renderer',
 });
