@@ -109,6 +109,10 @@ program
                 },
             ],
 
+            directories: {
+                buildResources: 'build-resources',
+            },
+
             win: {
                 target: 'portable',
             },
