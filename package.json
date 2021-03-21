@@ -7,20 +7,23 @@
         "url": "https://github.com/gokselgoktas/quicksand/issues"
     },
     "author": "Göksel Göktas",
-    "main": "./src/back-end/app.js",
+    "main": "index.js",
     "repository": "github:gokselgoktas/quicksand",
     "scripts": {
         "clean": "rimraf ./build",
-        "compile:development": "npm run compile:desktop+development && npm run compile:web+development",
-        "compile:production": "npm run compile:desktop+production && npm run compile:web+production",
+        "compile": "npm-run-all clean compile:development compile:production",
+        "compile:development": "run-p compile:desktop+development compile:web+development",
+        "compile:production": "run-p compile:desktop+production compile:web+production",
         "compile:desktop+development": "node ./build-scripts/build-system.js compile -t desktop -v development",
         "compile:desktop+production": "node ./build-scripts/build-system.js compile -t desktop -v production",
         "compile:web+development": "node ./build-scripts/build-system.js compile -t web -v development",
         "compile:web+production": "node ./build-scripts/build-system.js compile -t web -v production",
-        "execute:desktop+development": "npm run compile:desktop+development && electron ./build/desktop/development",
-        "execute:desktop+production": "npm run compile:desktop+production && electron ./build/desktop/production",
-        "execute:web+development": "npm run compile:web+development && nodemon ./build/web/development/server/index.js",
-        "execute:web+production": "npm run compile:web+production && node ./build/web/production/server/index.js"
+        "execute:desktop+development": "run-s compile:desktop+development && electron ./build/desktop/development",
+        "execute:desktop+production": "run-s compile:desktop+production && electron ./build/desktop/production",
+        "execute:web+development": "run-s compile:web+development && nodemon ./build/web/development/server/index.js",
+        "execute:web+production": "run-s compile:web+production && node ./build/web/production/server/index.js",
+        "package": "run-s package:desktop+production",
+        "package:desktop+production": "node ./build-scripts/build-system.js package -t desktop -v production"
     },
     "dependencies": {
         "express": "^4.17.1",
@@ -50,6 +53,7 @@
         "html-webpack-plugin": "^5.2.0",
         "mini-css-extract-plugin": "^1.2.1",
         "nodemon": "^2.0.6",
+        "npm-run-all": "^4.1.5",
         "sass": "^1.29.0",
         "sass-loader": "^11.0.1",
         "webpack": "^5.4.0",

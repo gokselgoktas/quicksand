@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const { merge } = require('webpack-merge');
+const { build } = require('electron-builder');
 const { program, Option } = require('commander');
 
 program.version('0.0.1');
@@ -14,6 +14,59 @@ const variant = new Option('-v, --variant <target>', 'set build variant')
     .choices(['development', 'production'])
     .default('development');
 
+async function compile(options) {
+    let backEndConfiguration = require(`./${options.variant}/${options.target}-back-end-configuration`);
+    let frontEndConfiguration = require(`./${options.variant}/${options.target}-front-end-configuration`);
+
+    if (options.target === 'desktop') {
+        frontEndConfiguration.plugins.shift();
+    }
+
+    const environment = new webpack.DefinePlugin({
+        'process.env': {
+            NODE_ENV: JSON.stringify(options.variant),
+        },
+    });
+
+    backEndConfiguration.plugins.push(environment);
+    frontEndConfiguration.plugins.push(environment);
+
+    const compiler = webpack([
+        backEndConfiguration,
+        frontEndConfiguration,
+    ]);
+
+    return new Promise((resolve, reject) => {
+        compiler.run((error, statistics) => {
+            if (error != null) {
+                console.error(error.stack || error);
+
+                if (error.details != null) {
+                    console.error(error.details);
+                }
+
+                reject('Error in compiler.run');
+                return;
+            }
+
+            const json = statistics.toJson('minimal');
+
+            if (statistics.hasErrors() === true) {
+                console.error(json.errors);
+
+                reject('Error in compiler.run statistics');
+                return;
+            }
+
+            if (statistics.hasWarnings() === true) {
+                console.warn(json.warnings);
+            }
+
+            resolve();
+        });
+    });
+}
+
 program
     .command('compile')
     .alias('c')
@@ -23,65 +76,46 @@ program
     .addOption(target)
     .addOption(variant)
 
-    .action((options) => {
-        let backEndConfiguration = require(`./${options.variant}/${options.target}-back-end-configuration`);
-        let frontEndConfiguration = require(`./${options.variant}/${options.target}-front-end-configuration`);
+    .action(compile);
 
-        const definitions = new webpack.DefinePlugin({
-            TARGET: `${options.target}`,
-            VARIANT: `${options.variant}`,
-        });
+program
+    .command('package')
+    .alias('p')
 
-        backEndConfiguration = merge(backEndConfiguration, {
-            plugins: [
-                definitions,
+    .description('package desktop app')
+
+    .addOption(target)
+    .addOption(variant)
+
+    .action(async (options) => {
+        await compile({
+            target: options.target,
+            variant: options.variant,
+        })
+
+        const configuration = {
+            appId: 'sh.stimhack.quicksand',
+            productName: 'Quicksand',
+
+            files: [
+                'package.json',
+                '!node_modules/**/*',
+
+                {
+                    from: `./build/${options.target}/${options.variant}`,
+                    to: '.',
+
+                    filter: ['**/*'],
+                },
             ],
-        });
 
-        frontEndConfiguration = merge(frontEndConfiguration, {
-            plugins: [
-                definitions,
-            ],
-        });
-
-        if (options.target === 'desktop') {
-            frontEndConfiguration.plugins.shift();
-        }
-
-        const environment = new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify(options.variant),
+            win: {
+                target: 'portable',
             },
-        });
+        };
 
-        backEndConfiguration.plugins.push(environment);
-        frontEndConfiguration.plugins.push(environment);
-
-        const compiler = webpack([
-            backEndConfiguration,
-            frontEndConfiguration,
-        ]);
-
-        compiler.run((error, statistics) => {
-            if (error != null) {
-                console.error(error.stack || error);
-
-                if (error.details != null) {
-                    console.error(error.details);
-                }
-
-                return;
-            }
-
-            const json = statistics.toJson('minimal');
-
-            if (statistics.hasErrors() === true) {
-                console.error(json.errors);
-            }
-
-            if (statistics.hasWarnings() === true) {
-                console.warn(json.warnings);
-            }
+        build({
+            config: configuration,
         });
     });
 
