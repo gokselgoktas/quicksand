@@ -7,6 +7,8 @@ const CSSMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 const { merge } = require('webpack-merge');
 
+const { ProvidePlugin } = require('webpack');
+
 module.exports = merge(require(path.resolve(__dirname, 'common-configuration.js')), {
     entry: {
         frontEnd: path.resolve('src', 'front-end', 'index.js'),
@@ -42,6 +44,10 @@ module.exports = merge(require(path.resolve(__dirname, 'common-configuration.js'
             filename: 'index.html',
             hash: true,
             title: 'Quicksand',
+        }),
+
+        new ProvidePlugin({
+            $: 'jquery',
         }),
     ],
 });
