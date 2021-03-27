@@ -30,6 +30,7 @@
         "quick-start:express+production": "node ./build/express/production/server/index.js"
     },
     "dependencies": {
+        "bootstrap": "^5.0.0-beta3",
         "express": "^4.17.1",
         "jquery": "^3.6.0",
         "react": "^17.0.1",
