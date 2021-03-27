@@ -18,25 +18,18 @@ module.exports = merge(require(path.resolve(__dirname, 'common-configuration.js'
         rules: [
             {
                 test: /\.s?css$/,
-
-                use: [
-                    MiniCSSExtractPlugin.loader,
-                    'css-loader',
-                    'sass-loader',
-                ]
-            }, {
+                use: [MiniCSSExtractPlugin.loader, 'css-loader', 'sass-loader'],
+            },
+            {
                 test: /\.html$/,
                 use: 'html-loader',
-            }
-        ]
+            },
+        ],
     },
 
     optimization: {
         minimize: true,
-        minimizer: [
-            new HTMLMinimizerPlugin(),
-            new CSSMinimizerPlugin(),
-        ],
+        minimizer: [new HTMLMinimizerPlugin(), new CSSMinimizerPlugin()],
     },
 
     plugins: [

@@ -6,7 +6,4 @@ import ReactDOM from 'react-dom';
 
 const title = '👋, 🌍!';
 
-ReactDOM.render(
-    <div className='container-fluid'>{title}</div>,
-    document.body
-);
+ReactDOM.render(<div className="container-fluid">{title}</div>, document.body);

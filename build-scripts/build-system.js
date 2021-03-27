@@ -31,10 +31,7 @@ async function compile(options) {
     backEndConfiguration.plugins.push(environment);
     frontEndConfiguration.plugins.push(environment);
 
-    const compiler = webpack([
-        backEndConfiguration,
-        frontEndConfiguration,
-    ]);
+    const compiler = webpack([backEndConfiguration, frontEndConfiguration]);
 
     return new Promise((resolve, reject) => {
         compiler.run((error, statistics) => {
@@ -91,7 +88,7 @@ program
         await compile({
             target: options.target,
             variant: options.variant,
-        })
+        });
 
         const configuration = {
             appId: 'sh.stimhack.quicksand',
@@ -124,4 +121,3 @@ program
     });
 
 program.parse(process.argv);
-

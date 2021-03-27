@@ -4,12 +4,14 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     module: {
-        rules: [{
-            test: /\.js$/,
-            exclude: /node_modules/,
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
 
-            use: 'babel-loader',
-        }]
+                use: 'babel-loader',
+            },
+        ],
     },
 
     optimization: {
@@ -17,11 +19,9 @@ module.exports = {
         minimizer: [
             new TerserWebpackPlugin({
                 extractComments: false,
-            })
+            }),
         ],
     },
 
-    plugins: [
-        new CleanWebpackPlugin(),
-    ],
-}
+    plugins: [new CleanWebpackPlugin()],
+};
