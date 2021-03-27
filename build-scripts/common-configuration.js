@@ -6,7 +6,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.(js|ts)x?$/,
                 exclude: /node_modules/,
 
                 use: 'babel-loader',
@@ -24,4 +24,8 @@ module.exports = {
     },
 
     plugins: [new CleanWebpackPlugin()],
+
+    resolve: {
+        extensions: ['.ts', '.js', '.tsx', '.jsx', '.json'],
+    },
 };

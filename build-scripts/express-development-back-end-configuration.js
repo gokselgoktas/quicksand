@@ -6,7 +6,7 @@ module.exports = merge(require(path.resolve(__dirname, 'common-back-end-configur
     mode: 'development',
 
     entry: {
-        express: path.resolve('src', 'back-end', 'express.js'),
+        express: path.resolve('src', 'back-end', 'express.ts'),
     },
 
     output: {

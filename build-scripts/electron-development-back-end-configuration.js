@@ -6,7 +6,7 @@ module.exports = merge(require(path.resolve(__dirname, 'common-back-end-configur
     mode: 'development',
 
     entry: {
-        electron: path.resolve('src', 'back-end', 'electron.js'),
+        electron: path.resolve('src', 'back-end', 'electron.ts'),
     },
 
     output: {

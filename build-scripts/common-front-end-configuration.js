@@ -11,7 +11,7 @@ const { ProvidePlugin } = require('webpack');
 
 module.exports = merge(require(path.resolve(__dirname, 'common-configuration.js')), {
     entry: {
-        frontEnd: path.resolve('src', 'front-end', 'index.js'),
+        frontEnd: path.resolve('src', 'front-end', 'index.tsx'),
     },
 
     module: {

@@ -1,5 +1,3 @@
-import 'path';
-
 import { app, BrowserWindow } from 'electron';
 
 function createWindow() {
